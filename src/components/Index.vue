@@ -25,7 +25,7 @@
 						  <el-radio-button :label="true">收起</el-radio-button>
 					</el-radio-group>
 					<!-- 导航 -->
-					<el-menu router default-active="1-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+					<el-menu background-color="#EEF1F6" router default-active="1-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
 						    <el-submenu index="1">
 							    <template slot="title">
 								      <i class="el-icon-location"></i>
@@ -105,9 +105,9 @@
 	    bottom: 0;
 	    width: 100%;
 	    .i_header{
-	    	height: 50px;
-		    line-height: 50px;
-		    background: #373d41;
+	    	height: 60px;
+		    line-height: 60px;
+		    background: #20A0FF;
 		    padding: 0;
 		    >div{
 		    	float: left;
@@ -121,13 +121,13 @@
 	.i_article{
 		display: flex;
 	    position: absolute;
-	    top: 50px;
+	    top: 60px;
 	    bottom: 0;
    		overflow: hidden;
    		div.left_nav{
+   			background:#EEF1F6;
    			overflow-x: hidden;
    			overflow-y: auto;
-   			background: pink;
    			&::-webkit-scrollbar {
 		        display: none;
 		    }
@@ -144,4 +144,7 @@
 	    width: 200px;
 	    min-height: 400px;
 	  }
+	//   .el-submenu .el-menu {
+	//     background-color: #e4e8f1;
+	// }
 </style>
