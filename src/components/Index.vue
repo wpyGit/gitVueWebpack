@@ -135,6 +135,8 @@
    		.all_articalSpace{
    			border: 1px solid red;
    			flex: 1;
+   			overflow-y: auto;
+		    padding: 10px;
    		}
 	}
 
