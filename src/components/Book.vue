@@ -12,11 +12,11 @@
 				<el-input placeholder="请输入内容" size="small" style="width:20%;" v-model="keyword">
 				    <el-button slot="append" icon="el-icon-search"></el-button>
 				</el-input>
-				<el-button type="primary" size="small" @click="dialogFormVisible = true;dialogTitle = '添加'">添加</el-button>
+				<el-button type="primary" size="small" @click="modalAdd">添加</el-button>
 		</div>
 		<!-- table -->
 		 <template>
-		    <el-table border v-loading="listLoading" height="300" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
+		    <el-table border v-loading="listLoading" max-height="1000" :data="tableData" style="width: 100%" @selection-change="handleSelectionChange">
 				<el-table-column type="selection" width="55">
 			    </el-table-column>
 			    <el-table-column prop="name" label="姓名" width="100"></el-table-column>
@@ -34,8 +34,8 @@
 		    </el-table>
 		 </template>
 
-		 <!-- 模态框 -->
-		<el-dialog :title="dialogTitle" :visible.sync="dialogFormVisible" :close-on-press-escape="coustFalst" :close-on-click-modal="coustFalst">
+		 <!-- 新增模态框 -->
+		<el-dialog title="新增" :visible.sync="dialogFormVisible" :close-on-press-escape="coustFalst" :close-on-click-modal="coustFalst">
 			<el-form label-position="left" label-width="80px" :model="formData">
 					<el-form-item label="姓名"> 
 							<el-input v-model="formData.name"></el-input>
@@ -62,13 +62,13 @@
 							    <el-checkbox label="看电影"></el-checkbox>
 							    <el-checkbox label="打游戏"></el-checkbox>
 							    <el-checkbox label="学习" disabled></el-checkbox>
-							 </el-checkbox-group>
+							</el-checkbox-group>
 					</el-form-item>
 			</el-form>
 
 			<div slot="footer" class="dialog-footer">
-			    <el-button @click="dialogFormVisible = false">取 消</el-button>
-			    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+			    <el-button @click="dialogFormVisible = false" >取 消</el-button>
+			    <el-button type="primary" @click="modelSure">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -83,6 +83,11 @@
 				keyword:'',
 				listLoading:false,
 				formData:{
+					name:'',
+					sex:'',
+					old:'',
+					birthday:'',
+					area:'',
 					checkList:['学习'],
 				},
 				selectOptions:[
@@ -154,7 +159,6 @@
 			            address: '上海市普陀区金沙江路 1517 弄'
 					},
 				],
-				dialogTitle:'',
 				dialogFormVisible: false,
 			    formLabelWidth: '120px'
 			}
@@ -190,6 +194,22 @@
 			            message: '已取消删除'
 			        });          
 		        }); 	
+		    },
+		    //按钮新增
+		    modalAdd(){
+		    	this.dialogFormVisible = true;
+		    	this.formData = {
+					name:'',
+					sex:'',
+					old:'',
+					birthday:'',
+					area:'',
+					checkList:['学习'],
+				}
+		    },
+		    modelSure(){
+		    	this.dialogFormVisible = false;
+		    	console.log(this.formData);
 		    }
 		}
 	}

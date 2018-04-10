@@ -2,12 +2,12 @@
   <div id="app">
       <transition name="fade" mode="out-in">
             <router-view></router-view>
-      </transition>  
-          
+      </transition>          
   </div>
 </template>
 
 <script>
+console.log(moment().format())
 export default {
   name: 'App'
 }
