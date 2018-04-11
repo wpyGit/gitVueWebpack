@@ -23,8 +23,8 @@
 			    <el-table-column prop="sex" label="性别" width="100"></el-table-column>
 			    <el-table-column prop="old" label="年龄" width="100"></el-table-column>
 			    <el-table-column prop="birthday" label="出生日期" width="160"></el-table-column>
-			    <el-table-column prop="num" label="学号" width=""></el-table-column>
-			    <el-table-column prop="address" label="地址" width=""></el-table-column>
+			    <el-table-column prop="checkList" label="爱好" width=""></el-table-column>
+			    <el-table-column prop="area" label="活动区域" width=""></el-table-column>
 			    <el-table-column prop="caoZuo" label="操作" width="">
 				    <template slot-scope="scope">
 			            <el-button size="small" @click="edit(scope)">编辑</el-button>
@@ -36,21 +36,23 @@
 
 		 <!-- 新增模态框 -->
 		<el-dialog title="新增" :visible.sync="dialogFormVisible" :close-on-press-escape="coustFalst" :close-on-click-modal="coustFalst">
-			<el-form label-position="left" label-width="80px" :model="formData">
-					<el-form-item label="姓名"> 
+			<el-form label-position="left" :rules="rules" label-width="80px" ref="formData" :model="formData">
+					<el-form-item label="姓名" prop="name"> 
 							<el-input v-model="formData.name"></el-input>
 					</el-form-item>
-					<el-form-item label="性别"> 
-							 <el-radio v-model="formData.sex" label="男">男</el-radio>
-							 <el-radio v-model="formData.sex" label="女">女</el-radio>
+					<el-form-item label="性别" prop="sex"> 
+						<el-radio-group v-model="formData.sex">
+							 <el-radio label="男">男</el-radio>
+							 <el-radio label="女">女</el-radio>
+						</el-radio-group>	 
 					</el-form-item>
-					<el-form-item label="年龄"> 
+					<el-form-item label="年龄" prop="old"> 
 							<el-input-number v-model="formData.old" controls-position="right" :min="1" :max="100"></el-input-number>
 					</el-form-item>
-					<el-form-item label="出生日期">
+					<el-form-item label="出生日期" prop="birthday">
 							<el-date-picker v-model="formData.birthday" type="date" placeholder="选择出生日期"></el-date-picker>
 					</el-form-item>
-					<el-form-item label="活动区域">
+					<el-form-item label="活动区域" prop="area">
 							<el-select v-model="formData.area" placeholder="请选择">
 							    <el-option v-for="item in selectOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
 							 </el-select>
@@ -68,7 +70,7 @@
 
 			<div slot="footer" class="dialog-footer">
 			    <el-button @click="dialogFormVisible = false" >取 消</el-button>
-			    <el-button type="primary" @click="modelSure">确 定</el-button>
+			    <el-button type="primary" @click="modelSure('formData')">确 定</el-button>
 			</div>
 		</el-dialog>
 
@@ -112,52 +114,34 @@
 						label:'贺兰县'
 					},
 				],
+				rules:{
+					name: [
+			            { required: true, message: '请输入姓名', trigger: 'blur' },
+			            { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
+			        ],
+			        birthday: [
+			            { type: 'date', required: true, message: '请选择出生日期', trigger: 'blur' }
+			        ],
+			        sex: [
+			            { required: true, message: '请选择性别', trigger: 'change' }
+			        ],
+			        old: [
+			            { required: true, message: '请输入年龄', trigger: 'blur' }
+			        ],
+			        area: [
+			            { required: true, message: '请选择活动区域', trigger: 'change' }
+			        ],
+				},
 				tableData:[
 					{
 			            name: '王小虎',
 			            sex: '男',
 			            old: '16',
 			            birthday:'2018-04-10',
-			            num: '6401554009901',
-			            address: '上海市普陀区金沙江路 1517 弄',
+			            checkList: ["吃饭","睡觉"],
+			            area: '金凤区',
 					},
-					{
-			            name: '王小虎',
-			            sex: '男',
-			            old: '16',
-			            birthday:'2018-04-10',
-			            num: '6401554009901',
-			            address: '上海市普陀区金沙江路 1517 弄'
-					},
-					{
-			            name: '王小虎',
-			            sex: '男',
-			            old: '16',
-			            birthday:'2018-04-10',
-			            num: '6401554009901',
-			            address: '上海市普陀区金沙江路 1517 弄'
-					},
-					{
-			            name: '王小虎',
-			            sex: '男',
-			            old: '16',
-			            num: '6401554009901',
-			            address: '上海市普陀区金沙江路 1517 弄'
-					},
-					{
-			            name: '王小虎',
-			            sex: '男',
-			            old: '16',
-			            num: '6401554009901',
-			            address: '上海市普陀区金沙江路 1517 弄'
-					},
-					{
-			            name: '王小虎',
-			            sex: '男',
-			            old: '16',
-			            num: '6401554009901',
-			            address: '上海市普陀区金沙江路 1517 弄'
-					},
+					
 				],
 				dialogFormVisible: false,
 			    formLabelWidth: '120px'
@@ -197,7 +181,7 @@
 		    },
 		    //按钮新增
 		    modalAdd(){
-		    	this.dialogFormVisible = true;
+		    	this.resetForm('formData');
 		    	this.formData = {
 					name:'',
 					sex:'',
@@ -206,10 +190,24 @@
 					area:'',
 					checkList:['学习'],
 				}
+				this.dialogFormVisible = true;
 		    },
-		    modelSure(){
-		    	this.dialogFormVisible = false;
+		    modelSure(formName){
 		    	console.log(this.formData);
+		    	this.$refs[formName].validate((valid) => {
+			        if (valid) {
+			            
+			            this.dialogFormVisible = false;
+			        } else {
+
+			        }
+		        });
+		    },
+		    //清空表单验证提示
+		    resetForm(formName) {
+		    	if(this.$refs[formName] !== undefined){
+ 					this.$refs[formName].resetFields();
+		    	}		       
 		    }
 		}
 	}
